@@ -1,18 +1,15 @@
 div.container {
- width: 768px;
- height: 420px;
+ width: 1024px;
+ height: 500px;
  margin: 0px auto;
 }
 
 div.grid {
- width: 160px;
- height: 160px;
+ width: 180px;
+ height: 180px;
  margin: 5px;
  line-height: 180px;
  box-shadow: 5px 5px 5px gray;
  font-size: 15px;
  display: inline-block;
-}
-div.grid4 {
-	background-color: green;
 }
