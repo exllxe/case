@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS & JS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script>
+        jQuery(document).ready(function(){
+			
+            var jqxhr = $.getJSON("https://opendata.cwb.gov.tw/api/v1/rest/datastore/C-B0025-001?Authorization=CWB-A179C9C8-302C-4759-8B8D-A8EF9CB8B9CA", function() {
+                console.log("123");
+            })
+            .done(function(arr) {
+				console.log(arr.records.location[0].weatherElement.time[2].elementValue);
+				var days=arr.records.location[0].weatherElement.time.length;
+                
+                var i;
+                var out = '<table class="table table-striped table-hover"><thead><tr><th scope="col">#</th><th scope="col">地點</th>'
+                            + '<th scope="col">昨天雨量</th><th scope="col">前天雨量</th><th scope="col">大前天雨量</th></tr></thead><tbody>';
+				
+				
+                for(i = 0; i < arr.records.location.length; i++) {
+                    out += '<tr><th scope="row">' + i + '</th><td>' +
+                    arr.records.location[i].locateChineseName + "</td><td>" +
+                    arr.records.location[i].weatherElement.time[days-1].elementValue + "</td><td>" +
+					arr.records.location[i].weatherElement.time[days-2].elementValue + "</td><td>"+
+                    arr.records.location[i].weatherElement.time[days-3].elementValue + "</td></tr>";
+                }
+                out += "</tbody></table>";
+                document.getElementById("data_grid").innerHTML = out;
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    
+    <h3>本局所屬地面測站雨量資料-前三日雨量</h3>
+    <div id="data_grid"></div>
+</body>
+</html>
